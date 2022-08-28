@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+!build/index.js  # 允许tpManage中的build
 develop-eggs/
 dist/
 downloads/
