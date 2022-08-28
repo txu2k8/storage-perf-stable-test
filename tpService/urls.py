@@ -14,8 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.schemas import get_schema_view
+
+from tpApps.base import urls as base_url
+
+
+schema_view = get_schema_view(
+    title='性能长稳测平台',
+    # renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer],
+    permission_classes=()
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # apps
+    path('api/base/', include(base_url)),
+
+    path(r'docs/', schema_view, name="docs"),
 ]

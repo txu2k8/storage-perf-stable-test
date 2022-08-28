@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,6 +26,115 @@ SECRET_KEY = 'django-insecure-6u+*_gs(#j&ecorig@xel49l)&f&%sg8b0p7c@81u9d269*9)o
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+LOG_DIR = os.path.join(os.path.curdir, 'logs')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,  # 禁用已经存在的logger实例
+    'formatters': {
+        # 详细的日志格式
+        'standard': {
+            'format': '%(asctime)s,%(process)d,%(name)s,%(levelname)s,%(filename)s:%(lineno)d,%(message)s'
+        },
+        # 简单的日志格式
+        'simple': {
+            'format': '%(asctime)s | %(levelname)-8s | %(name)s %(filename)s:%(funcName)s:%(lineno)d - %(message)s'
+        },
+        # 定义一个特殊的日志格式
+        'collect': {
+            'format': '%(message)s'
+        }
+    },
+    # 过滤器
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        # 默认的
+        'default': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件，自动切
+            'filename': os.path.join(LOG_DIR, "message.log"),
+            'maxBytes': 1024 * 1024 * 50,  # 日志大小 50M
+            'backupCount': 5,  # 最多备份5个
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+        },
+        # 专门用来记错误日志
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件，自动切
+            'filename': os.path.join(LOG_DIR, "error.log"),  # 日志文件
+            'maxBytes': 1024 * 1024 * 50,  # 日志大小 50M
+            'backupCount': 5,
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+        },
+        # 在终端打印
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],  # 只有在Django debug为True时才在屏幕打印日志
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        # 专门用来记录需要发送到邮件的日志
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+            # 'filters': ['special'],
+        },
+        # 专门定义一个收集app：base的日志
+        'base_handler': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件，自动切
+            'filename': os.path.join(LOG_DIR, "base.log"),
+            'maxBytes': 1024 * 1024 * 50,  # 日志大小 50M
+            'backupCount': 5,
+            'formatter': 'simple',
+            'encoding': "utf-8"
+        },
+        # 收集脚本日志
+        'scprits_handler': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, "script.log"),
+            'maxBytes': 1024*1024*5,
+            'backupCount': 5,
+            'formatter': 'standard',
+            'encoding': 'utf-8',
+        }
+    },
+    'loggers': {
+        # 默认的logger应用如下配置
+        'django': {
+            'handlers': ['default', 'error', 'console'] if DEBUG else ["default", 'error'],
+            'level': 'DEBUG',
+            'propagate': False,  # 是否向更高级别的logger传递
+        },
+        # 名为 'base'的logger 单独处理
+        'base': {
+            'handlers': ['base_handler', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        # 名为 'scripts'的logger 单独处理
+        'scripts': {
+            'handlers': ['scprits_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+        # 'root' logger
+        '': {
+            'handlers': ['default', 'console'] if DEBUG else ["default"],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    }
+}
 
 ALLOWED_HOSTS = []
 
@@ -37,11 +148,62 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_filters',
+    'rest_framework',
+    'corsheaders',  # 解决跨越问题
+
+    'tpApps.base.apps.BaseConfig',
+    'tpApps.lts.apps.LtsConfig',
+    'tpApps.perf.apps.PerfConfig',
+
+]
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic',
+        }
+    },
+    'USE_SESSION_AUTH': True
+}
+
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ],
+
+    # 接口请求频率限制
+    "DEFAULT_THROTTLE_RATES": {
+        # key与定义的scope对应，value: 5表示次数 / m表示分钟  s秒  h小时  d天
+        "api_update_history_add": "5/m",
+    }
+}
+
+
+SIMPLE_JWT = {
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
+    'ROTATE_REFRESH_TOKENS': True,
+}
+
+AUTHENTICATION_BACKENDS = (
+    'tpApps.base.views.MyCustomBackend',
+)
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # 解决跨越问题
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
