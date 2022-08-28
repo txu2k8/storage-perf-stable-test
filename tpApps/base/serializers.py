@@ -68,8 +68,6 @@ class ProjectSerializer(serializers.ModelSerializer):
     """
     create_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
     update_time = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False, read_only=True)
-    creator = UserSerializer()
-    updater = UserSerializer()
 
     class Meta:
         model = Project
@@ -113,7 +111,7 @@ class GlobalWorkflowSerializer(BulkSerializerMixin, serializers.ModelSerializer)
         list_serializer_class = BulkListSerializer
 
 
-class GlobalLabelSerializer(BulkSerializerMixin, serializers.ModelSerializer):
+class GlobalLabelSerializer(serializers.ModelSerializer):
     """
     标签 信息序列化
     """
@@ -122,11 +120,20 @@ class GlobalLabelSerializer(BulkSerializerMixin, serializers.ModelSerializer):
 
     class Meta:
         model = GlobalLabel
-        fields = ('id', 'name', 'type', 'type_name', 'status', 'description')
-        list_serializer_class = BulkListSerializer
+        fields = ('id', 'name', 'type', 'type_name', 'project', 'status', 'description')
 
     def get_type_name(self, obj):
         return obj.get_type_display()
+
+
+class GlobalLabelDeserializer(BulkSerializerMixin, serializers.ModelSerializer):
+    """
+    接口一级分组信息反序列化
+    """
+    class Meta:
+        model = GlobalLabel
+        fields = '__all__'
+        list_serializer_class = BulkListSerializer
 
 
 class TestTaskSerializer(BulkSerializerMixin, serializers.ModelSerializer):

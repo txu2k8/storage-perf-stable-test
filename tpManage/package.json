@@ -22,6 +22,7 @@
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
     "vue": "2.6.10",
+    "vue-json-viewer": "^2.2.22",
     "vue-router": "3.0.6",
     "vuex": "3.1.0"
   },
@@ -48,7 +49,8 @@
     "serve-static": "1.13.2",
     "svg-sprite-loader": "4.1.3",
     "svgo": "1.2.2",
-    "vue-template-compiler": "2.6.10"
+    "vue-template-compiler": "2.6.10",
+    "vue-json-viewer": "^2.2.22"
   },
   "browserslist": [
     "> 1%",

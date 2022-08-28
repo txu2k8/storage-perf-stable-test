@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.core.validators import validate_comma_separated_integer_list
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
 
 
 # 平台框架基础数据模型
@@ -66,10 +64,7 @@ class Project(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name='项目名称', max_length=50)
     version = models.CharField(verbose_name='版本', max_length=50, null=True)
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, max_length=20,
-                                verbose_name="创建人", related_name="project_creator")
-    updater = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, max_length=20,
-                                verbose_name="更新人", related_name="project_updater")
+    creator = models.CharField(blank=True, null=True, max_length=20, verbose_name="创建人")
 
     def __unicode__(self):
         return self.name
@@ -190,8 +185,7 @@ class TestTask(BaseModel):
     next_run = models.CharField(blank=True, null=True, default='', max_length=50, verbose_name='下一次执行时间')
     duration = models.IntegerField(default=0, verbose_name='耗时（秒）')
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, max_length=20,
-                                verbose_name="创建人", related_name="task_creator")
+    creator = models.CharField(blank=True, null=True, max_length=20, verbose_name="创建人")
     # APScheduler job state
     job_state = models.JSONField(blank=True, null=True, default=dict, verbose_name='job state')
 

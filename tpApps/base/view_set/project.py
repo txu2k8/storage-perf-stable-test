@@ -14,7 +14,7 @@ from tpApps.base.serializers import ProjectSerializer, ProjectDeserializer
 
 
 class ProjectViewSet(BaseViewSet):
-    serializer_class = ProjectSerializer
+    serializer_class = ProjectDeserializer
     queryset = Project.objects.all().order_by('id')
     filterset_class = ProjectFilter
 

@@ -99,8 +99,8 @@ urlpatterns = [
     re_path(r'global/env/config/default', GetEnvDefaultConfigView.as_view()),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 if __name__ == '__main__':

@@ -136,7 +136,12 @@ LOGGING = {
     }
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+# 允许所有的请求头
+CORS_ALLOW_HEADERS = ('*',)
+# AUTH_USER_MODEL = 'user.UserProfile'
 
 
 # Application definition
@@ -265,9 +270,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-Hans'  # 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'  # 'UTC'
 
 USE_I18N = True
 
