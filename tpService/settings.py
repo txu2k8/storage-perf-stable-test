@@ -244,7 +244,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
+    'lts': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(STATICFILES_DIRS[0], "lts/db.sqlite3"),
+    },
 }
 
 

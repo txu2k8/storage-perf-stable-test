@@ -15,15 +15,21 @@ const ltsRouter = {
   children: [
     {
       path: 'task',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/lts/task/index'),
       name: 'lts_task',
       meta: { title: '测试任务', roles: ['admin'], icon: 'el-icon-s-platform' }
     },
     {
       path: 'report',
-      component: () => import('@/views/form/index'),
+      component: () => import('@/views/lts/report/index'),
       name: 'lts_report',
       meta: { title: '历史报告', roles: ['admin'], icon: 'el-icon-notebook-1' }
+    },
+    {
+      path: 'analysis',
+      component: () => import('@/views/lts/analysis/index'),
+      name: 'lts_analysis',
+      meta: { title: '结果分析', roles: ['admin'], icon: 'el-icon-data-analysis' }
     }
   ]
 }

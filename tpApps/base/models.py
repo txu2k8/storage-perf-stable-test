@@ -130,7 +130,7 @@ class GlobalEnv(BaseModel):
     is_default = models.BooleanField("默认配置", default=False)
 
     def __unicode__(self):
-        return self.name7
+        return self.name
 
     def __str__(self):
         return self.name

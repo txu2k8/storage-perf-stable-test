@@ -16,7 +16,9 @@
   "dependencies": {
     "axios": "0.18.1",
     "core-js": "3.6.5",
+    "echarts": "^5.4.0",
     "element-ui": "2.13.2",
+    "fuse.js": "^6.6.2",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
@@ -49,8 +51,8 @@
     "serve-static": "1.13.2",
     "svg-sprite-loader": "4.1.3",
     "svgo": "1.2.2",
-    "vue-template-compiler": "2.6.10",
-    "vue-json-viewer": "^2.2.22"
+    "vue-json-viewer": "^2.2.22",
+    "vue-template-compiler": "2.6.10"
   },
   "browserslist": [
     "> 1%",

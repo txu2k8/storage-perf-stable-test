@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework.schemas import get_schema_view
 
 from tpApps.base import urls as base_url
+from tpApps.lts import urls as lts_url
 
 
 schema_view = get_schema_view(
@@ -32,6 +33,7 @@ urlpatterns = [
 
     # apps
     path('api/base/', include(base_url)),
+    path('api/lts/', include(lts_url)),
 
     path(r'docs/', schema_view, name="docs"),
 ]

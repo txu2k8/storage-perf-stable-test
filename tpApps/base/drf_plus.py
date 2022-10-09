@@ -67,7 +67,7 @@ class Pagination(PageNumberPagination):
     page_query_param = 'page'  # 页码--参数名称
     page_size_query_param = 'page_size'  # 每页多少条--参数名称
     page_size = 20
-    max_page_size = 10000
+    max_page_size = 10**11
 
 
 # DRF ViewSet封装

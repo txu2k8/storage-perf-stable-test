@@ -63,7 +63,7 @@
                     <span> password: any</span>
                   </div>
                   <div>
-                    <social-sign />
+<!--                    <social-sign />-->
                   </div>
 
                 </el-form>
