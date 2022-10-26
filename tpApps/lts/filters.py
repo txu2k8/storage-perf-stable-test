@@ -11,7 +11,7 @@ import django_filters
 from django_filters.rest_framework import FilterSet
 
 from tpApps.base.filters import NumberInFilter
-from tpApps.lts.models import ObjInfo
+from tpApps.lts.models import ObjInfo, StatInfo
 
 
 class ObjInfoFilter(FilterSet):
@@ -25,3 +25,12 @@ class ObjInfoFilter(FilterSet):
             'bucket': ['icontains'],
             'obj': ['icontains'],
         }
+
+
+class StatInfoFilter(FilterSet):
+    datetime__gte = django_filters.DateTimeFilter(field_name='datetime', lookup_expr='gte')
+    datetime__lte = django_filters.DateTimeFilter(field_name='datetime', lookup_expr='lte')
+
+    class Meta:
+        model = StatInfo
+        fields = {}

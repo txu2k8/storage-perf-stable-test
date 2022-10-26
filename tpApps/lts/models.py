@@ -36,3 +36,20 @@ class ObjInfo(models.Model):
         verbose_name_plural = '对象记录'
         db_table = 'obj_info'
 
+
+# 统计信息记录
+class StatInfo(models.Model):
+    """统计信息记录"""
+    id = models.AutoField(primary_key=True)
+    datetime = models.CharField(max_length=20, verbose_name='时间')
+    ops = models.FloatField(max_length=11, verbose_name='OPS')
+    elapsed_avg = models.FloatField(max_length=11, verbose_name='平均时延')
+    queue_size_avg = models.IntegerField(max_length=11, verbose_name='平均queue队列深度')
+
+    def __unicode__(self):
+        return self.id
+
+    class Meta:
+        verbose_name = '统计信息'
+        verbose_name_plural = '统计信息'
+        db_table = 'stat_info'

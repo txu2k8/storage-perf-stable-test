@@ -30,12 +30,12 @@
 
 <script>
 
-import LineChart from '@/views/lts/analysis/components/LineChart'
-import LineGradientY from '@/views/lts/analysis/components/LineGradientY'
-import { getDBList, getObjInfoList } from "@/api/lts/analysis";
+import LineChart from '@/views/lts/video-monitor/analysis/components/LineChart'
+import LineGradientY from '@/views/lts/video-monitor/analysis/components/LineGradientY'
+import { getDBList, getObjInfoList } from "@/api/lts/video-monitor/analysis";
 
 export default {
-  name: 'VideoMonitor',
+  name: 'ObjInfo',
   components: { LineChart, LineGradientY },
   data() {
     return {
