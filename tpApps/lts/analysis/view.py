@@ -57,7 +57,7 @@ class StatInfoViewSet(BaseViewSet):
     alias = 'lts'
     serializer_class = StatInfoSerializer
     queryset = StatInfo.objects.using(alias).all().order_by('id')
-    filter_fields = ("idx", "date",)
+    filter_fields = ("id", "datetime",)
     filterset_class = StatInfoFilter
 
     # 批量 更新数据
