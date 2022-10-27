@@ -2,14 +2,19 @@
   <div class="main" style="padding:10px;">
     <!--工具条-->
     <el-row :span="24" class="toolbar">
-      <el-col :span="6">
+      <el-col :span="8">
         <el-select v-model="db_file" clearable placeholder="请选择" style="width: 98%">
-          <el-option
-            v-for="item in db_file_options"
-            :key="item.path"
-            :label="item.name"
-            :value="item.path">
-          </el-option>
+          <el-option-group
+            v-for="group in db_file_options"
+            :key="group.label"
+            :label="group.label">
+            <el-option
+              v-for="item in group.options"
+              :key="item.value"
+              :label="group.label+' - '+item.label"
+              :value="item.value">
+            </el-option>
+          </el-option-group>
         </el-select>
       </el-col>
       <el-col :span="6">

@@ -21,16 +21,18 @@ class GetLTSDBLisView(APIView):
         获取 测试数据库列表
         :param request:
         """
-        response = []
+        options = []
         lts_path = os.path.join(settings.STATICFILES_DIRS[0], 'lts')
-        static_lts_files = os.listdir(lts_path)
-        for f in static_lts_files:
-            if not f.endswith("db.sqlite3"):
-                continue
-            d, _ = f.split("_db.sqlite3")
-            response.append({"name": f, "date": d, "path": os.path.join(lts_path, f)})
+        for dir_path, dir_names, file_names in os.walk(lts_path):
+            folder = dir_path.replace(lts_path, "").lstrip("\\")
+            option = {"label": folder, "options": []}
+            for file_name in file_names:
+                if file_name.endswith("db.sqlite3"):
+                    file_path = os.path.join(dir_path, file_name)
+                    option["options"].append({"label": file_name, "value": file_path})
+            options.append(option)
 
-        return JsonResponse(response, status=200)
+        return JsonResponse(options, status=200)
 
 
 if __name__ == '__main__':
