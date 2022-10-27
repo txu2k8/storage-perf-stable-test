@@ -26,7 +26,7 @@ class GetLTSDBLisView(APIView):
         for dir_path, dir_names, file_names in os.walk(lts_path):
             folder = dir_path.replace(lts_path, "").lstrip("\\")
             option = {"label": folder, "options": []}
-            for file_name in file_names:
+            for file_name in sorted(file_names, reverse=True):
                 if file_name.endswith("db.sqlite3"):
                     file_path = os.path.join(dir_path, file_name)
                     option["options"].append({"label": file_name, "value": file_path})
