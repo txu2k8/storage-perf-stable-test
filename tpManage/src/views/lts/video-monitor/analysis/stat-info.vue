@@ -94,7 +94,16 @@ export default {
             }
           }]
         },
-      dateTime: [],
+      dateTime: [
+        // new Date(new Date().getTime() - 3600 * 1000 * 24),//默认开始时间
+        // new Date(
+        //   new Date().getFullYear(),
+        //   new Date().getMonth(),
+        //   new Date().getDate(),
+        //   new Date().getHours(),
+        //   new Date().getMinutes()
+        // ), // 默认结束时间
+      ],
       db_file_options: [],
       db_file: '',
 

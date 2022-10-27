@@ -11,3 +11,5 @@ pytest~=6.2.5
 pytest-html==3.1.1
 pytest-dependency==0.5.1
 allure-pytest==2.9.45
+pytz~=2022.4
+six~=1.16.0
